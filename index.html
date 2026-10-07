@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ku">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AriX AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 18px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      font-weight: normal;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .message {
+      max-width: 85%;
+      padding: 13px 16px;
+      margin-bottom: 12px;
+      border-radius: 18px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .user {
+      background: #2563eb;
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 5px;
+    }
+
+    .ai {
+      background: white;
+      color: #111827;
+      margin-right: auto;
+      border-bottom-left-radius: 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .welcome {
+      text-align: center;
+      margin-top: 30px;
+      color: #374151;
+    }
+
+    .welcome h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .welcome p {
+      color: #6b7280;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      background: white;
+      border-top: 1px solid #ddd;
+    }
+
+    #input {
+      flex: 1;
+      border: 1px solid #d1d5db;
+      border-radius: 25px;
+      padding: 13px 17px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    #send {
+      width: 50px;
+      height: 50px;
+      border: none;
+      border-radius: 50%;
+      background: #2563eb;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    #send:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  AriX AI 🤖
+  <div class="subtitle">Your Smart Kurdish AI Assistant</div>
+</header>
+
+<div id="chat">
+
+  <div class="welcome" id="welcome">
+    <h2>بەخێربێیت بۆ AriX AI 🤖</h2>
+    <p>چ شتێکت دەوێت؟ لێم بپرسە.</p>
+  </div>
+
+</div>
+
+<div class="input-area">
+  <input
+    id="input"
+    type="text"
+    placeholder="نامەکەت بنووسە..."
+    autocomplete="off"
+  >
+
+  <button id="send">➤</button>
+</div>
+
+<script>
+
+const input = document.getElementById("input");
+const send = document.getElementById("send");
+const chat = document.getElementById("chat");
+const welcome = document.getElementById("welcome");
+
+function addMessage(text, type) {
+
+  if (welcome) {
+    welcome.style.display = "none";
+  }
+
+  const message = document.createElement("div");
+
+  message.className = "message " + type;
+  message.textContent = text;
+
+  chat.appendChild(message);
+
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function aiReply(text) {
+
+  const lower = text.toLowerCase();
+
+  if (
+    lower.includes("سڵاو") ||
+    lower.includes("hello") ||
+    lower.includes("hi")
+  ) {
+    return "سڵاو هاوڕێ 👋🤖\nبەخێربێیت بۆ AriX AI.\nچۆنی؟ چیت دەوێت بکەین؟";
+  }
+
+  if (
+    lower.includes("کێیت") ||
+    lower.includes("چییت")
+  ) {
+    return "من AriX AI ـم 🤖\nیاریدەدەرێکی زیرەکم کە دروستمان دەکەین بۆ قسەکردن، بیرکردنەوە، پێشنیارکردن و یارمەتیدان.";
+  }
+
+  if (
+    lower.includes("ئاری") ||
+    lower.includes("arix")
+  ) {
+    return "بەڵێ هاوڕێ 😎\nAriX AI لە کاردایە!";
+  }
+
+  return "تێگەیشتم هاوڕێ 🤝\nئەمە وەشانی سەرەتایی AriX AI ـە.\nلە هەنگاوی داهاتوودا دەیکەینە AI ـی ڕاستەقینە کە بتوانێت وەڵامی پرسیارەکانت بدات.";
+}
+
+function sendMessage() {
+
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  addMessage(text, "user");
+
+  input.value = "";
+
+  setTimeout(() => {
+    addMessage(aiReply(text), "ai");
+  }, 500);
+}
+
+send.addEventListener("click", sendMessage);
+
+input.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    sendMessage();
+  }
+});
+
+</script>
+
+</body>
+    </html>
